@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Razor.TagHelpers;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
+    using Markdig;
 
     [HtmlTargetElement("markdown")]
     public class MarkdownTagHelper : TagHelper
@@ -34,7 +35,9 @@
                 this.Text = await GetContent(output);
             }
 
-            var result = Markdig.Markdown.ToHtml(this.Text);
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+
+            var result = Markdown.ToHtml(this.Text, pipeline);
 
             if (!string.IsNullOrWhiteSpace(SurroundingTag))
             {
