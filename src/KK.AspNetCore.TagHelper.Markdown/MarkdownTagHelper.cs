@@ -1,5 +1,6 @@
 ﻿namespace KK.AspNetCore.TagHelper.Markdown
 {
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Razor.TagHelpers;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
@@ -18,7 +19,7 @@
         [HtmlAttributeName("source")]
         public ModelExpression Source { get; set; }
 
-        public override void Process(
+        public async override Task ProcessAsync(
             TagHelperContext context,
             TagHelperOutput output
         )
@@ -26,6 +27,11 @@
             if (this.Source != null)
             {
                 this.Text = this.Source.Model.ToString();
+            }
+
+            if (string.IsNullOrWhiteSpace(this.Text))
+            {
+                this.Text = await GetContent(output);
             }
 
             var result = Markdig.Markdown.ToHtml(this.Text);
@@ -44,6 +50,11 @@
                 output.TagName = null;
             }
             output.Content.SetHtmlContent(result);
+        }
+
+        private async Task<string> GetContent(TagHelperOutput output)
+        {
+            return (await output.GetChildContentAsync()).GetContent().Trim();
         }
     }
 }
