@@ -1,7 +1,7 @@
 # KK.AspNetCore.TagHelper.Markdown
 
 This TagHelper act like a `pre` tag but renders the contend as html.  
-The Markdown processor is [Markdig](processor) and most of all advanced extensions (except Emoji, SoftLine as HardLine, JiraLinks and SmartyPants) are enabled.
+The Markdown processor is [Markdig](https://github.com/lunet-io/markdig) and most of all advanced extensions (except Emoji, SoftLine as HardLine, JiraLinks and SmartyPants) are enabled.
 
 This TagHelper can be used as the following:
 
